@@ -22,10 +22,8 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-
-    # Runs a single command using the runners shell
-    - name: Run Jest
-      uses: stefanoeb/jest-action@1.0.4
-      # with:
-        # Args to jest
-        # jestArgs: # optional
+    - name: Install modules
+      run: yarn
+    - name: Run tests
+      run: yarn test:unit
+    
