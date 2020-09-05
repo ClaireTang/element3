@@ -75,9 +75,8 @@ export default {
     },
 
     cellRenderProxy({ text, type }) {
-      const render = this.elCalendar.$scopedSlots.dateCell
+      const render = this.elCalendar.$slots.default
       if (!render) return <span>{text}</span>
-
       const day = this.getFormateDate(text, type)
       const date = new Date(day)
       const data = {

@@ -18,11 +18,7 @@
         </el-button-group>
       </div>
     </div>
-    <div
-      class="el-calendar__body"
-      v-if="validatedRange.length === 0"
-      key="no-range"
-    >
+    <div class="el-calendar__body" v-if="validatedRange.length === 0">
       <date-table
         :date="date"
         :selected-day="realSelectedDay"
@@ -30,7 +26,7 @@
         @pick="pickDay"
       />
     </div>
-    <div v-else class="el-calendar__body" key="has-range">
+    <div v-else class="el-calendar__body">
       <date-table
         v-for="(range, index) in validatedRange"
         :key="index"

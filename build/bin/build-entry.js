@@ -120,7 +120,8 @@ ComponentNames.forEach((name) => {
       'step',
       'steps',
       'drawer',
-      'transfer'
+      'transfer',
+      'calendar'
     ].indexOf(name) > -1
   ) {
     // 白名单 挨个替换
