@@ -25,10 +25,18 @@
   </button>
 </template>
 <script>
-import { computed, inject, toRefs, unref, getCurrentInstance } from 'vue'
-
+import { computed, getCurrentInstance, inject, unref, toRefs } from 'vue'
 export default {
   name: 'ElButton',
+
+  // inject: {
+  //   elForm: {
+  //     default: ''
+  //   },
+  //   elFormItem: {
+  //     default: ''
+  //   }
+  // },
 
   props: {
     type: {
@@ -54,50 +62,56 @@ export default {
     round: Boolean,
     circle: Boolean
   },
-  emits: ['click'],
+
   setup(props, ctx) {
     const { size, disabled } = toRefs(props)
 
-    const buttonSize = useButtonSize(size)
-    const buttonDisabled = useButtonDisabled(disabled)
+    const elForm = inject('elForm', {})
+    const elFormItem = inject('elFormItem', {})
+
+    const _elFormItemSize = computed(() => unref(elFormItem.elFormItemSize))
+
+    const buttonSize = computed(
+      () =>
+        size.value ||
+        _elFormItemSize.value ||
+        (getCurrentInstance().proxy.$ELEMENT || {}).size
+    )
+
+    const buttonDisabled = computed(
+      () => disabled.value || unref(elForm.disabled)
+    )
 
     const handleClick = (evt) => {
       ctx.emit('click', evt)
     }
 
     return {
-      handleClick,
       buttonSize,
-      buttonDisabled
+      buttonDisabled,
+      handleClick
     }
-  }
-}
+  },
 
-const useButtonSize = (size) => {
-  const elFormItem = inject('elFormItem', {})
+  emits: ['click']
 
-  const _elFormItemSize = computed(() => {
-    return unref(elFormItem.elFormItemSize)
-  })
+  // computed: {
+  //   _elFormItemSize() {
+  //     return (this.elFormItem || {}).elFormItemSize;
+  //   },
+  //   buttonSize() {
+  //     return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
+  //   },
+  //   buttonDisabled() {
+  //     return this.disabled || (this.elForm || {}).disabled;
+  //   }
+  // },
 
-  const buttonSize = computed(() => {
-    return (
-      size.value ||
-      _elFormItemSize.value ||
-      (getCurrentInstance().proxy.$ELEMENT || {}).size
-    )
-  })
-
-  return buttonSize
-}
-
-const useButtonDisabled = (disabled) => {
-  const elForm = inject('elForm', {})
-
-  const buttonDisabled = computed(() => {
-    return disabled.value || unref(elForm.disabled)
-  })
-
-  return buttonDisabled
+  // methods: {
+  //   handleClick(evt) {
+  //     this.$emit('click', evt);
+  //   }
+  // }
 }
 </script>
+
