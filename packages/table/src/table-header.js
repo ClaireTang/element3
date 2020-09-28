@@ -1,5 +1,6 @@
 // import {h} from 'vue'
 import * as Vue from 'vue'
+import { renderList } from 'vue'
 import { hasClass, addClass, removeClass } from 'element-ui/src/utils/dom'
 import ElCheckbox from 'element-ui/packages/checkbox'
 import FilterPanel from './filter-panel.vue'
@@ -89,7 +90,7 @@ export default {
           {this.hasGutter ? <col name="gutter" /> : ''}
         </colgroup>
         <thead class={[{ 'is-group': isGroup, 'has-gutter': this.hasGutter }]}>
-          {this._l(columnRows, (columns, rowIndex) => (
+          {renderList(columnRows, (columns, rowIndex) => (
             <tr
               style={this.getHeaderRowStyle(rowIndex)}
               class={this.getHeaderRowClass(rowIndex)}
