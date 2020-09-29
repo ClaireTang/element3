@@ -175,7 +175,7 @@ export default {
     }
 
     const getFirstElement = () => {
-      const slotsDefault = slots.default()
+      const slotsDefault = slots.default && slots.default()
       if (!Array.isArray(slotsDefault)) return null
       let element = null
       for (let index = 0; index < slotsDefault.length; index++) {
